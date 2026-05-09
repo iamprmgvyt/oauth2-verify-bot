@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // --- CONFIG & CONSTANTS ---
 const BRAND_NAME = "Synapse Pass";
-const SUPPORT_EMAIL = "support@prmgvyt.xyz";
+const SUPPORT_EMAIL = "support@synapsepass.xyz";
 const COLOR_THEME = 0x3B82F6; // Blue 500
 
 // --- CONNECT DB ---
