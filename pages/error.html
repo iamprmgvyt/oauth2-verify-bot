@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Synapse Pass</title>
+    <link rel="icon" type="image/png" href="bot.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen text-center p-4">
+    <div class="w-24 h-24 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mb-8 shadow-2xl shadow-red-500/40">
+        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </div>
+    
+    <h1 id="errorTitle" class="text-4xl font-bold mb-6 text-red-500">Verification Failed</h1>
+    
+    <div class="bg-gray-800 p-8 rounded-2xl border border-gray-700 max-w-lg w-full mb-10 text-left shadow-xl">
+        <h3 class="text-lg font-bold mb-3 text-white border-b border-gray-700 pb-2">Reason:</h3>
+        <p id="errorMsg" class="text-gray-300 mb-6">An unknown error occurred.</p>
+        
+        <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
+            <h4 class="text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Technical Details</h4>
+            <p id="techDetails" class="text-xs text-gray-400 font-mono">N/A</p>
+        </div>
+    </div>
+    
+    <div class="flex space-x-4">
+        <button onclick="window.history.back()" class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition text-sm font-semibold border border-gray-600">Go Back</button>
+        <a href="mailto:support@synapsepass.xyz" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-sm font-semibold shadow-lg shadow-blue-500/20">Contact Support</a>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorCode = urlParams.get('error') || 'unknown';
+        const title = document.getElementById('errorTitle');
+        const msg = document.getElementById('errorMsg');
+        const tech = document.getElementById('techDetails');
+
+        const errorMap = {
+            'no_setup': {
+                title: 'Configuration Not Found',
+                msg: 'The Synapse Pass system is not configured for this link. Please contact the server administrator.',
+                tech: 'State parameter invalid or missing from MongoDB (VerifyState).'
+            },
+            'hierarchy': {
+                title: 'Bot Permission Error',
+                msg: 'Synapse Pass bot does not have permission to assign the requested role. The role is positioned higher than the bot in the server settings.',
+                tech: 'DiscordAPIError[50013]: Missing Permissions (Role Hierarchy).'
+            },
+            'unknown': {
+                title: 'System Error',
+                msg: 'Something went wrong on our servers. Please try again later or contact support.',
+                tech: 'Generic catch-all error in /auth/callback endpoint.'
+            }
+        };
+
+        const err = errorMap[errorCode];
+        if (err) {
+            title.textContent = err.title;
+            msg.textContent = err.msg;
+            tech.textContent = err.tech;
+        }
+    </script>
+</body>
+</html>
