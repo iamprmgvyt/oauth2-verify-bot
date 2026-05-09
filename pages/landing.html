@@ -3,40 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synapse Pass Bot</title>
+    <title>Synapse Pass - Secure Verification</title>
+    <link rel="icon" type="image/png" href="bot.png">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-900 text-white font-sans antialiased">
-    <nav class="w-full p-6 flex justify-between items-center bg-slate-800 shadow-md">
-        <div class="text-xl font-bold text-indigo-400">Synapse Pass Bot</div>
-        <a href="mailto:support@prmgvyt.xyz" class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full transition">Support Email</a>
+<body class="bg-slate-900 text-white font-sans antialiased selection:bg-blue-500 selection:text-white">
+    <nav class="w-full p-6 flex justify-between items-center bg-slate-800/80 backdrop-blur-md border-b border-slate-700 sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <img src="bot.png" alt="Synapse" class="w-10 h-10 rounded-full">
+            <div class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">Synapse Pass</div>
+        </div>
+        <a href="mailto:support@prmgvyt" class="text-sm font-semibold bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-full transition shadow-lg shadow-blue-500/30">Get Support</a>
     </nav>
 
-    <main class="container mx-auto px-4 py-20 text-center">
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
-            Secure Verification
+    <main class="container mx-auto px-4 py-24 text-center">
+        <div class="inline-block px-4 py-1 mb-6 text-xs font-semibold tracking-wider text-blue-300 uppercase bg-blue-900/30 rounded-full border border-blue-500/30">
+            Next Gen Security
+        </div>
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+            Verify with <br>
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">Synapse Pass</span>
         </h1>
-        <p class="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
-            Advanced Discord verification system with Smart Welcome, Canvas images, and Multi-language support. Secure and fast.
+        <p class="text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+            The ultimate verification solution for Discord communities. Smart Canvas Welcome, Multi-language support, and rock-solid OAuth2 security.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                <h3 class="text-xl font-bold mb-2">🔒 Secure</h3>
-                <p class="text-slate-400">OAuth2 standard encryption.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-5xl mx-auto">
+            <div class="p-8 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-blue-500/50 transition duration-300 group">
+                <div class="w-12 h-12 bg-blue-600/20 text-blue-400 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-slate-200">Secure & Safe</h3>
+                <p class="text-slate-400 text-sm">Powered by official Discord OAuth2. No data stored unnecessarily.</p>
             </div>
-            <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                <h3 class="text-xl font-bold mb-2">🎨 Smart Welcome</h3>
-                <p class="text-slate-400">Beautiful canvas images for new members.</p>
+            <div class="p-8 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-purple-500/50 transition duration-300 group">
+                <div class="w-12 h-12 bg-purple-600/20 text-purple-400 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-slate-200">Smart Welcome</h3>
+                <p class="text-slate-400 text-sm">Dynamic Canvas images generated instantly for new members.</p>
             </div>
-            <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                <h3 class="text-xl font-bold mb-2">🌍 Multi-Language</h3>
-                <p class="text-slate-400">Support English and Vietnamese.</p>
+            <div class="p-8 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-indigo-500/50 transition duration-300 group">
+                <div class="w-12 h-12 bg-indigo-600/20 text-indigo-400 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-slate-200">Global Support</h3>
+                <p class="text-slate-400 text-sm">English and Vietnamese language support integrated by default.</p>
             </div>
         </div>
     </main>
 
-    <footer class="w-full text-center p-6 bg-slate-900 text-slate-500 text-sm border-t border-slate-800">
-        <p>&copy; 2026 Synapse Pass. <a href="#" class="hover:text-indigo-400">Terms of Service</a> | <a href="#" class="hover:text-indigo-400">Privacy Policy</a></p>
+    <footer class="w-full text-center p-8 bg-slate-900 border-t border-slate-800 text-slate-500 text-sm">
+        <p class="mb-2">&copy; 2026 Synapse Pass. All rights reserved.</p>
+        <div class="space-x-4">
+            <a href="#" class="hover:text-blue-400 transition">Terms of Service</a>
+            <span>|</span>
+            <a href="#" class="hover:text-blue-400 transition">Privacy Policy</a>
+        </div>
     </footer>
 </body>
 </html>
