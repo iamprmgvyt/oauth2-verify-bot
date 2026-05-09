@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success - Synapse Pass</title>
+    <link rel="icon" type="image/png" href="bot.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen text-center p-4">
+    <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mb-8 shadow-2xl shadow-green-500/40 animate-bounce">
+        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+    </div>
+    
+    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">Verification Successful!</h1>
+    <p class="text-gray-400 mb-10 max-w-md text-lg">You have been verified by <span class="text-blue-400 font-bold">Synapse Pass</span> and your roles have been assigned.</p>
+    
+    <a href="https://discord.com" class="bg-white text-gray-900 hover:bg-gray-200 font-bold py-4 px-10 rounded-full transition shadow-lg transform hover:-translate-y-1">
+        Return to Discord
+    </a>
+
+    <div class="mt-12 text-xs text-gray-600">
+        <p>Powered by <span class="font-bold text-gray-500">Synapse Pass</span></p>
+        <p class="mt-1"><a href="mailto:support@synapsepass.xyz" class="hover:text-blue-500">Support Team</a></p>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const isDemo = urlParams.get('demo');
+        if (isDemo) {
+            document.querySelector('p').innerHTML = `<span class="text-yellow-500">Demo Mode:</span> This was a simulation. In live mode, roles are assigned instantly.`;
+        }
+    </script>
+</body>
+</html>
