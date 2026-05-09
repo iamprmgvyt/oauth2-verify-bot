@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse Verify</title>
+    <link rel="icon" type="image/png" href="bot.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center relative overflow-hidden">
+    
+    <!-- Background Decoration -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+    </div>
+
+    <div class="bg-gray-800/80 backdrop-blur-lg p-8 rounded-2xl shadow-2xl max-w-md w-full border border-gray-700/50 text-center">
+        <!-- Logo -->
+        <div class="mb-6">
+            <img src="bot.png" alt="Synapse Pass" class="w-20 h-20 mx-auto rounded-full shadow-lg shadow-blue-500/20 border-4 border-gray-700">
+        </div>
+
+        <h1 id="title" class="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">Synapse Verify</h1>
+        <p id="desc" class="text-gray-400 mb-8 text-sm">Securely verify your identity to access the server.</p>
+
+        <!-- Demo Toggle -->
+        <div class="flex justify-center items-center mb-8 space-x-3">
+            <span class="text-xs text-gray-500 uppercase tracking-wider font-bold">Demo Mode</span>
+            <button id="toggleDemo" class="w-12 h-6 bg-gray-700 rounded-full relative transition-colors focus:outline-none border border-gray-600">
+                <div id="demoIndicator" class="w-4 h-4 bg-white rounded-full absolute top-1 left-1 transition-transform shadow-sm"></div>
+            </button>
+        </div>
+
+        <div id="loading" class="hidden text-blue-400 mb-6 animate-pulse font-semibold">Processing authentication...</div>
+        
+        <div id="error-msg" class="hidden text-red-400 mb-6 text-sm bg-red-900/20 p-3 rounded border border-red-800"></div>
+
+        <button id="verifyBtn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/30 transition transform active:scale-95 border border-white/10">
+            Verify with Synapse
+        </button>
+
+        <div class="mt-8 grid grid-cols-3 gap-2 text-xs text-gray-500 border-t border-gray-700 pt-4">
+            <a href="#" class="hover:text-blue-400 transition">TOS</a>
+            <a href="#" class="hover:text-blue-400 transition">Privacy</a>
+            <a href="mailto:support@synapsepass.xyz" class="hover:text-blue-400 transition">Support</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:3000"; // Sửa thành URL Render
+        const CLIENT_ID = "YOUR_CLIENT_ID";
+        const REDIRECT_URI = "http://localhost:3000/auth/callback"; // Sửa thành URL Render
+        
+        const translations = {
+            en: {
+                title: "Synapse Verify",
+                desc: "Securely verify your identity to access the server.",
+                btn: "Verify with Synapse",
+                noState: "Configuration not found. Please contact an administrator."
+            },
+            vi: {
+                title: "Xác thực Synapse",
+                desc: "Xác minh danh tính an toàn để truy cập máy chủ.",
+                btn: "Xác thực ngay",
+                noState: "Chưa cấu hình hệ thống. Vui lòng liên hệ quản trị viên."
+            }
+        };
+
+        let currentLang = 'en';
+        let isDemo = false;
+        let stateParam = null;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        stateParam = urlParams.get('state');
+
+        const titleEl = document.getElementById('title');
+        const descEl = document.getElementById('desc');
+        const btnEl = document.getElementById('verifyBtn');
+        const errorMsg = document.getElementById('error-msg');
+        const loading = document.getElementById('loading');
+        const demoToggle = document.getElementById('toggleDemo');
+        const demoIndicator = document.getElementById('demoIndicator');
+
+        demoToggle.addEventListener('click', () => {
+            isDemo = !isDemo;
+            if (isDemo) {
+                demoToggle.classList.replace('bg-gray-700', 'bg-green-600');
+                demoToggle.classList.replace('border-gray-600', 'border-green-500');
+                demoIndicator.style.transform = 'translateX(24px)';
+                if (!stateParam) stateParam = "synapse_demo_mode_123";
+            } else {
+                demoToggle.classList.replace('bg-green-600', 'bg-gray-700');
+                demoToggle.classList.replace('border-green-500', 'border-gray-600');
+                demoIndicator.style.transform = 'translateX(0)';
+            }
+        });
+
+        async function init() {
+            if (!stateParam && !isDemo) {
+                showError("Missing secure link parameters.");
+                return;
+            }
+
+            if (isDemo) {
+                applyLang('en');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/api/config?state=${stateParam}`);
+                if (!res.ok) throw new Error("Config Error");
+                const data = await res.json();
+                applyLang(data.lang);
+            } catch (e) {
+                showError("Admin has not configured Synapse Pass yet.");
+                btnEl.disabled = true;
+                btnEl.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function applyLang(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            titleEl.textContent = t.title;
+            descEl.textContent = t.desc;
+            btnEl.textContent = t.btn;
+        }
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.classList.remove('hidden');
+        }
+
+        btnEl.addEventListener('click', () => {
+            if (isDemo) {
+                loading.classList.remove('hidden');
+                btnEl.disabled = true;
+                setTimeout(() => {
+                    window.location.href = `success.html?lang=${currentLang}&demo=true`;
+                }, 1500);
+            } else {
+                const discordUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=identify%20guilds.join&state=${stateParam}`;
+                window.location.href = discordUrl;
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>
