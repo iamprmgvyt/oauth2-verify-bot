@@ -1,41 +1,59 @@
 const { createCanvas, loadImage } = require('canvas');
 
 module.exports = async (member) => {
-    const canvas = createCanvas(700, 250);
+    const canvas = createCanvas(800, 300);
     const ctx = canvas.getContext('2d');
 
-    // Background (Gradient màu xanh tím than hiện đại)
+    // Background (Gradient Synapse màu xanh dương đậm)
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop(0, '#5865F2');
-    gradient.addColorStop(1, '#eb459e');
+    gradient.addColorStop(0, '#0F172A'); // Slate 900
+    gradient.addColorStop(1, '#3B82F6'); // Blue 500
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Tải Avatar
-    const avatar = await loadImage(member.user.displayAvatarURL({ format: 'png', size: 128 }));
-    
-    // Vẽ hình tròn cho Avatar
+    // Vẽ họa tiết trang trí (Hình tròn mờ)
     ctx.beginPath();
-    ctx.arc(125, 125, 80, 0, Math.PI * 2, true);
-    ctx.closePath();
-    ctx.clip();
-    ctx.drawImage(avatar, 45, 45, 160, 160);
-    
-    // Vẽ viền avatar
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 10;
-    ctx.stroke();
+    ctx.arc(700, 50, 100, 0, Math.PI * 2, true);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.fill();
 
-    // Text chào mừng
+    // Tải Avatar
+    try {
+        const avatar = await loadImage(member.user.displayAvatarURL({ format: 'png', size: 128 }));
+        
+        // Vẽ Avatar hình tròn
+        ctx.beginPath();
+        ctx.arc(150, 150, 80, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(avatar, 70, 70, 160, 160);
+        
+        // Viền Avatar
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 8;
+        ctx.stroke();
+    } catch (e) {
+        console.log("Error loading avatar");
+    }
+
+    // Text Welcome
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 40px sans-serif';
-    ctx.fillText('WELCOME', 250, 90);
+    ctx.font = 'bold 50px Inter, sans-serif';
+    ctx.fillText('WELCOME', 300, 100);
 
-    ctx.font = '30px sans-serif';
-    ctx.fillText(member.user.tag, 250, 140);
+    ctx.font = 'bold 35px Inter, sans-serif';
+    ctx.fillText(member.user.tag, 300, 160);
 
-    ctx.font = '20px sans-serif';
-    ctx.fillText(`You are the ${member.guild.memberCount}th member!`, 250, 180);
+    ctx.font = '20px Inter, sans-serif';
+    ctx.fillStyle = '#cbd5e1'; // Slate 300
+    ctx.fillText(`Joined Synapse Pass Secure Server`, 300, 200);
+    ctx.font = 'italic 18px Inter, sans-serif';
+    ctx.fillText(`Member #${member.guild.memberCount}`, 300, 235);
+
+    // Watermark
+    ctx.font = '12px Inter, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.fillText('Protected by Synapse Pass', 650, 280);
 
     return canvas.toBuffer();
 };
